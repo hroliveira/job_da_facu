@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Students Directory | Academic Work Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col h-full">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<div>
+<h1 class="text-slate-900 dark:text-white font-bold text-lg leading-none">AWM SaaS</h1>
+<p class="text-slate-500 text-xs mt-1">Admin Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-fill-1">group</span>
+<span class="text-sm font-semibold">Students</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="text-sm font-medium">Academic Works</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-sm font-medium">Institutions</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden" data-alt="User avatar profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFPlj6fM3VvTSsWx7uYopNGY5m3ti9hT2vBpHkuU0ratmruHHiPHZDkXGezs_YjMzvpOhkRYfGmUeXMUkbFy4AhcoVAmw-gpxzZCNmtnkkCjsQOD6slTQPJP8oL2k9Xlrn9FGsyv8gWtm_D-G-a9WexNb2G8eEVvVQVO4tU3RD-nWQbHwYbFnNdM9yN8PVqoWSyXEoPVXI2-nwn6MRqksdEpleqCxryJJezKtACGaCCJBOjI16a763z2cS4YhJaiE522q9rrXWVTrz')"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">Admin User</p>
+<p class="text-xs text-slate-500 truncate">admin@awm.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-8 shrink-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary text-sm" placeholder="Search students, courses or institutions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+<button class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-lg">person_add</span>
+                        Add New Student
+                    </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-auto p-8">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Page Title & Stats -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Students Directory</h2>
+<p class="text-slate-500 mt-1">Manage and monitor student academic progress across institutions.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium rounded-lg hover:bg-slate-50 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                                Filter
+                            </button>
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium rounded-lg hover:bg-slate-50 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-lg">download</span>
+                                Export
+                            </button>
+</div>
+</div>
+<!-- Table Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Name</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Email</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Phone</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Course</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Institution</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Total Works</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">AJ</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Alex Johnson</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">alex.j@example.com</td>
+<td class="px-6 py-4 text-sm text-slate-500">+1 234 567 890</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                                Computer Science
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Stanford University</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">85</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 text-slate-400">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="p-1 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">MG</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Maria Garcia</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">m.garcia@univ.edu</td>
+<td class="px-6 py-4 text-sm text-slate-500">+1 345 678 901</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                                Mech Engineering
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">MIT</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 70%"></div>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">70</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 text-slate-400">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="p-1 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">JS</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">James Smith</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">jsmith@college.edu</td>
+<td class="px-6 py-4 text-sm text-slate-500">+1 456 789 012</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                                Business Admin
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Harvard</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 92%"></div>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">92</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 text-slate-400">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="p-1 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">LC</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Linda Chen</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">linda.c@tech.edu</td>
+<td class="px-6 py-4 text-sm text-slate-500">+1 567 890 123</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                                Data Science
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">UC Berkeley</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 60%"></div>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">60</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 text-slate-400">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="p-1 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<p class="text-sm text-slate-500">Showing 1 to 4 of 48 entries</p>
+<div class="flex items-center gap-1">
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-lg leading-none">chevron_left</span>
+</button>
+<button class="px-3 py-1 bg-primary text-white text-sm font-bold rounded-lg">1</button>
+<button class="px-3 py-1 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium rounded-lg">2</button>
+<button class="px-3 py-1 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium rounded-lg">3</button>
+<span class="text-slate-400 px-2">...</span>
+<button class="px-3 py-1 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium rounded-lg">12</button>
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50">
+<span class="material-symbols-outlined text-lg leading-none">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

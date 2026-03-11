@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Academic Work Manager</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            'background-light': '#f5f7f8',
+            'background-dark': '#101722',
+          },
+          fontFamily: { display: ['Inter', 'sans-serif'] },
+          borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .sidebar-link { @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors text-sm cursor-pointer; }
+    .sidebar-link.active { @apply bg-primary/10 text-primary font-semibold; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .kanban-col { min-height: 200px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.8s linear infinite; }
+  </style>
+</head>
+<body class="bg-background-light font-display text-slate-900 min-h-screen">
+
+<div class="flex h-screen overflow-hidden relative">
+
+  <!-- ===================== MOBILE OVERLAY ===================== -->
+  <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-200 flex flex-col z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="p-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-primary rounded-xl p-2 text-white flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined">school</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight">Academia</h1>
+          <p class="text-xs text-slate-500 font-medium">Work Manager</p>
+        </div>
+      </div>
+      <button onclick="toggleSidebar()" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-4 py-4 flex flex-col gap-2 overflow-y-auto">
+      <a class="sidebar-link" id="nav-dashboard" onclick="navigate('dashboard')">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="sidebar-link" id="nav-students" onclick="navigate('students')">
+        <span class="material-symbols-outlined">group</span>
+        <span>Alunos</span>
+      </a>
+      <a class="sidebar-link" id="nav-works" onclick="navigate('works')">
+        <span class="material-symbols-outlined">menu_book</span>
+        <span>Trabalhos</span>
+      </a>
+      <a class="sidebar-link" id="nav-finance" onclick="navigate('finance')">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>Finanças & Arquivos</span>
+      </a>
+      <a class="sidebar-link" id="nav-team" onclick="navigate('team')">
+        <span class="material-symbols-outlined">badge</span>
+        <span>Equipe</span>
+      </a>
+      <a class="sidebar-link" id="nav-settings" onclick="navigate('settings')">
+        <span class="material-symbols-outlined">manage_accounts</span>
+        <span>Perfil</span>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-slate-200">
+      <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 cursor-pointer" id="user-info-sidebar">
+        <div id="sidebar-avatar" class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs shrink-0">?</div>
+        <div class="flex-1 min-w-0">
+          <p id="sidebar-name" class="text-sm font-semibold truncate">—</p>
+          <p id="sidebar-email" class="text-xs text-slate-500 truncate">—</p>
+        </div>
+        <button onclick="handleLogout()" title="Sair" class="p-1 text-slate-400 hover:text-rose-500 transition-colors rounded-lg hover:bg-rose-50">
+          <span class="material-symbols-outlined text-xl">logout</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="flex-1 flex flex-col min-h-screen overflow-hidden w-full transition-all duration-300">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-3 flex items-center justify-between shrink-0 gap-4">
+      
+      <div class="flex items-center gap-2 flex-1">
+        <button onclick="toggleSidebar()" class="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors shrink-0">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <div class="flex items-center w-full max-w-sm relative hidden sm:flex">
+          <span class="material-symbols-outlined absolute left-3 text-slate-400">search</span>
+          <input id="global-search"
+            class="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+            placeholder="Buscar..." type="text"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 md:gap-3 shrink-0">
+        <!-- Deadlines notification -->
+        <button id="deadline-btn" onclick="navigate('dashboard')"
+          class="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors">
+          <span class="material-symbols-outlined">notifications</span>
+          <span id="deadline-badge" class="hidden absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+        </button>
+        <button onclick="navigate('works')"
+          class="bg-primary hover:bg-blue-600 text-white font-semibold text-sm px-3 md:px-5 py-2 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-primary/20 whitespace-nowrap">
+          <span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Add Work</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW CONTAINER -->
+    <div id="view-container" class="flex-1 overflow-y-auto">
+      <div class="flex items-center justify-center h-full">
+        <div class="w-8 h-8 border-2 border-primary border-t-transparent rounded-full spin"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay" class="hidden fixed inset-0 z-[9000] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="modal-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+    <div class="flex items-center justify-between p-6 border-b border-slate-100">
+      <h3 id="modal-title" class="font-bold text-lg text-slate-900"></h3>
+      <button onclick="closeModal()" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div id="modal-body" class="p-6 overflow-y-auto flex-1"></div>
+    <div id="modal-footer" class="hidden p-6 border-t border-slate-100 flex justify-end gap-3"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed bottom-6 right-6 z-[9999] text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold flex items-center gap-3 transition-all duration-300"></div>
+
+<script type="module">
+import { getSession, getUser, getProfile, signOut } from './src/services/authService.js';
+import * as uiHelpers from './src/utils/uiHelpers.js';
+import { getDeadlines } from './src/services/workService.js';
+
+let currentRole = 'aluno'; 
+let currentUserProfile = null;
+
+window.handleLogout = async function() {
+  try {
+    if (confirm('Tem certeza que deseja sair?')) {
+      await signOut();
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = './index.html';
+    }
+  } catch (err) {
+    console.error("Erro ao fazer logout", err);
+  }
+};
+
+// Auth Guard com Timeout (Impede UI congelada)
+(async () => {
+  try {
+    const authPromise = async () => {
+      const session = await getSession();
+      if (!session) throw new Error('NoSession');
+      const user = await getUser();
+      return user;
+    };
+    
+    // Força fail após 5 segundos max
+    const user = await Promise.race([
+      authPromise(),
+      new Promise((_, r) => setTimeout(() => r(new Error('AuthTimeout')), 5000))
+    ]);
+
+    try {
+      if (user && user.id) {
+        currentUserProfile = await getProfile(user.id);
+        currentRole = currentUserProfile?.role || user?.user_metadata?.role || 'aluno';
+      }
+    } catch (e) {
+      console.error("Erro ao carregar profile", e);
+      currentRole = user?.user_metadata?.role || 'aluno';
+    }
+
+    aplicarPermissoesDeRole();
+
+    const name = currentUserProfile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+    document.getElementById('sidebar-name').textContent = name;
+    document.getElementById('sidebar-email').textContent = user?.email || '';
+    document.getElementById('sidebar-avatar').textContent = uiHelpers.getInitials(name);
+
+    navigate(window.location.hash.slice(1) || 'dashboard');
+  } catch (err) {
+    console.error("Auth Guard falhou. Redirecionando:", err);
+    localStorage.clear(); sessionStorage.clear();
+    window.location.href = './index.html';
+  }
+})();
+
+function aplicarPermissoesDeRole() {
+  if (currentRole !== 'admin') {
+    const navTeam = document.getElementById('nav-team');
+    if(navTeam) navTeam.style.display = 'none';
+  }
+  if (currentRole === 'aluno') {
+    const navFin = document.getElementById('nav-finance');
+    if(navFin) navFin.style.display = 'none';
+  }
+}
+
+// ── Deadline badge ──────────────────────────────────
+async function checkDeadlines() {
+  try {
+    const deadlines = await getDeadlines(7);
+    const overdue = deadlines.filter(w => w.delivery_date < new Date().toISOString().slice(0,10));
+    const badge = document.getElementById('deadline-badge');
+    if (deadlines.length > 0) badge.classList.remove('hidden');
+    else badge.classList.add('hidden');
+  } catch(e) {}
+}
+checkDeadlines();
+
+// ── Router dinâmico (Lazy Load p/ evitar quebra se houver erro sintatico em UMA pagina) ─
+window.navigate = async function(page) {
+  // Fecha a sidebar no mobile ao navegar
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+     sidebar.classList.add('-translate-x-full');
+     overlay.classList.add('hidden');
+  }
+
+  const container = document.getElementById('view-container');
+  container.innerHTML = `<div class="flex items-center justify-center h-64"><div class="w-8 h-8 border-2 border-primary border-t-transparent rounded-full spin"></div></div>`;
+
+  document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById(`nav-${page}`);
+  if (navEl) navEl.classList.add('active');
+
+  window.history.replaceState(null, '', `#${page}`);
+
+  try {
+    // Carregamento dinâmico
+    let module;
+    switch(page) {
+      case 'dashboard': module = await import('./src/views/dashboard.js'); await module.renderDashboard(container); break;
+      case 'students':  module = await import('./src/views/students.js');  await module.renderStudents(container); break;
+      case 'works':     module = await import('./src/views/works.js');     await module.renderWorks(container); break;
+      case 'finance':   module = await import('./src/views/finance.js');   await module.renderFinance(container); break;
+      case 'team':      module = await import('./src/views/team.js');      await module.renderTeam(container); break;
+      case 'settings':  module = await import('./src/views/settings.js');  await module.renderSettings(container); break;
+      default:          module = await import('./src/views/dashboard.js'); await module.renderDashboard(container);
+    }
+  } catch(e) {
+    console.error(`Erro ao carregar a página ${page}:`, e);
+    container.innerHTML = `<div class="flex items-center justify-center h-64 text-rose-500">
+      <div class="text-center"><span class="material-symbols-outlined text-4xl">error</span>
+      <p class="mt-2 text-sm font-semibold max-w-sm">Erro ao carregar módulo "${page}". ${e.message}</p></div>
+    </div>`;
+  }
+};
+
+window.toggleSidebar = function() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  
+  if (sidebar.classList.contains('-translate-x-full')) {
+    // Open
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+  } else {
+    // Close
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  }
+};
+
+// ── Global search ────────────────────────────────────
+let searchTimeout;
+document.getElementById('global-search').addEventListener('input', (e) => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const q = e.target.value.trim();
+    if (q.length >= 2) {
+      const hash = window.location.hash.replace('#', '') || 'dashboard';
+      if (window._viewSearch) window._viewSearch(q);
+    } else if (q === '') {
+      if (window._viewSearch) window._viewSearch('');
+    }
+  }, 300);
+});
+
+// ── Modal helpers (global) ───────────────────────────
+window.openModal = function(title, bodyHTML, footerHTML = '') {
+  document.getElementById('modal-title').innerHTML = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  const footer = document.getElementById('modal-footer');
+  if (footerHTML) {
+    footer.innerHTML = footerHTML;
+    footer.classList.remove('hidden');
+  } else {
+    footer.innerHTML = '';
+    footer.classList.add('hidden');
+  }
+  document.getElementById('modal-overlay').classList.remove('hidden');
+};
+
+window.closeModal = function() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+};
+
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+// ── Toast helper (global) ────────────────────────────
+window.showToast = function(message, type = 'success') {
+  const colors = { success: 'bg-emerald-600', error: 'bg-rose-600', info: 'bg-blue-600', warning: 'bg-amber-500' };
+  const icons  = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
+  const toast = document.getElementById('toast');
+  toast.className = `fixed bottom-6 right-6 z-[9999] ${colors[type]||colors.info} text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold flex items-center gap-3`;
+  toast.innerHTML = `<span class="material-symbols-outlined text-lg">${icons[type]||'info'}</span>${message}`;
+  toast.classList.remove('hidden');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.add('hidden'), 3500);
+};
+
+// ── Init: navigate to hash or dashboard (já efetuado pelo auth guard se bem sucedido)
+// Removida chamada redundante aqui que corria junto com o guard e travava a UI se desse race condition.
+</script>
+</body>
+</html>

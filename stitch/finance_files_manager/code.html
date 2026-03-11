@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Manager - Finance &amp; Files</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+<div class="p-6 flex flex-col gap-8 h-full">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-sm font-bold leading-tight">Academic Manager</h1>
+<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Pro Plan</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 flex-grow">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-sm font-medium">Work Orders</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="text-sm font-semibold">Finance &amp; Files</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">folder</span>
+<span class="text-sm font-medium">All Files</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2.5 rounded-lg text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Project
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto flex flex-col">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 flex items-center justify-between shrink-0 sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Summary Overview</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search orders, students..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-300 dark:border-slate-600" data-alt="User profile avatar portrait">
+<div class="w-full h-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="p-8 flex flex-col gap-8">
+<!-- Stats Row -->
+<section>
+<div class="mb-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Financial Performance</h3>
+<p class="text-sm text-slate-500">Overview of your academic revenue streams.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</span>
+<span class="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-full">+12.5%</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Total Revenue</p>
+<h4 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$12,850.00</h4>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-amber-50 dark:bg-amber-900/30 rounded-lg text-amber-500">
+<span class="material-symbols-outlined">pending_actions</span>
+</span>
+<span class="text-xs font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/30 px-2 py-1 rounded-full">-2.1%</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Pending Payments</p>
+<h4 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$2,400.00</h4>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg text-emerald-500">
+<span class="material-symbols-outlined">check_circle</span>
+</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Paid Works</p>
+<h4 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">48</h4>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-500">
+<span class="material-symbols-outlined">trending_up</span>
+</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Monthly Earnings</p>
+<h4 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$4,200</h4>
+</div>
+</div>
+</section>
+<!-- Chart and Details -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Earnings Chart Card -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Revenue Growth</h3>
+<p class="text-sm text-slate-500">Monthly earnings comparison</p>
+</div>
+<select class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm px-4 py-2 focus:ring-1 focus:ring-primary outline-none">
+<option>Last 6 Months</option>
+<option>Last Year</option>
+</select>
+</div>
+<div class="relative h-64 flex items-end gap-4 px-2">
+<!-- Simulated Chart bars -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 45%;">
+<div class="absolute inset-0 bg-primary opacity-20 group-hover:opacity-40 transition-opacity"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">JAN</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 60%;">
+<div class="absolute inset-0 bg-primary opacity-20 group-hover:opacity-40 transition-opacity"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">FEB</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 40%;">
+<div class="absolute inset-0 bg-primary opacity-20 group-hover:opacity-40 transition-opacity"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">MAR</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 85%;">
+<div class="absolute inset-0 bg-primary opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-1/2 -translate-x-1/2 bg-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow text-primary">$4.2k</div>
+</div>
+<span class="text-xs font-bold text-slate-900 dark:text-white">APR</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 55%;">
+<div class="absolute inset-0 bg-primary opacity-20 group-hover:opacity-40 transition-opacity"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">MAY</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group overflow-hidden" style="height: 70%;">
+<div class="absolute inset-0 bg-primary opacity-20 group-hover:opacity-40 transition-opacity"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">JUN</span>
+</div>
+</div>
+</div>
+<!-- Recent Activities -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Recent Payments</h3>
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined text-xl">add_card</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Payment Received</p>
+<p class="text-xs text-slate-500">Order #8842 - Thesis Drafting</p>
+</div>
+<span class="text-sm font-bold text-emerald-600">+$850</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">schedule</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Invoice Sent</p>
+<p class="text-xs text-slate-500">Order #8845 - Essay Review</p>
+</div>
+<span class="text-sm font-bold text-slate-400">$320</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined text-xl">add_card</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Payment Received</p>
+<p class="text-xs text-slate-500">Order #8839 - Data Analysis</p>
+</div>
+<span class="text-sm font-bold text-emerald-600">+$1,200</span>
+</div>
+</div>
+<button class="w-full mt-8 py-2 text-primary font-semibold text-sm hover:bg-primary/5 rounded-lg transition-colors">View All Transactions</button>
+</div>
+</div>
+<!-- Files Table -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Files</h3>
+<p class="text-sm text-slate-500">Managed documents for current academic orders.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-base">filter_list</span>
+                        Filter
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50 text-slate-500 uppercase text-[10px] tracking-widest font-bold">
+<th class="px-6 py-4">Work Title</th>
+<th class="px-6 py-4">Student</th>
+<th class="px-6 py-4">File Name</th>
+<th class="px-6 py-4">Upload Date</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Quantum Physics Dissertation</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-indigo-100 text-indigo-600 text-[10px] flex items-center justify-center font-bold">AM</div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Alex Morgan</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-rose-500 text-lg">picture_as_pdf</span>
+<span class="text-sm">draft_v2_final.pdf</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Sociology Literature Review</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-emerald-100 text-emerald-600 text-[10px] flex items-center justify-center font-bold">SC</div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Sarah Chen</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-blue-500 text-lg">description</span>
+<span class="text-sm">references_list.docx</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 22, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Business Ethics Case Study</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-amber-100 text-amber-600 text-[10px] flex items-center justify-center font-bold">JD</div>
+<span class="text-sm text-slate-600 dark:text-slate-400">James Doe</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-rose-500 text-lg">picture_as_pdf</span>
+<span class="text-sm">ethics_assignment.pdf</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 20, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Molecular Biology Data Set</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-purple-100 text-purple-600 text-[10px] flex items-center justify-center font-bold">LW</div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Linda White</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-emerald-500 text-lg">table_chart</span>
+<span class="text-sm">lab_results_oct.xlsx</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 18, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 flex justify-center">
+<button class="text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">View All Files (24)</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

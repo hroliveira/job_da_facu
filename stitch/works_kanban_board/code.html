@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3c83f6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Academic Work Manager - Kanban</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="flex w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shrink-0">
+<div class="flex flex-col h-full p-4 gap-6">
+<div class="flex items-center gap-3 px-2">
+<div class="size-10 rounded-xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-sm font-bold leading-tight uppercase tracking-wider">Academic</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Manager Pro</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<button class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</button>
+<button class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined text-[22px] fill-current">view_kanban</span>
+<span class="text-sm font-semibold">Kanban Board</span>
+</button>
+<button class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[22px]">assignment</span>
+<span class="text-sm font-medium">Projects</span>
+</button>
+<button class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[22px]">group</span>
+<span class="text-sm font-medium">Students</span>
+</button>
+<button class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+<span class="text-sm font-medium">Invoices</span>
+</button>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<button class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</button>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-2 flex items-center gap-3 px-3">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAs3uVn4tAg5dd3Pbk64m4l1KEEUnZOfTfJ10yDm18fLfUTb-d9RYTYIue5H5SGqUySGRfKFt4KjCvSQPbt7xCFlP9iYUullVWqmQ-15l2jDNTl_oIe7Shxy5Pa7RbBkMvklDsfFbCz6QYYfyNLzW3OzKQEzTYR7FTn8nXsXL5XVCb7i2-_cooxu2BkePOaWMvf2I5OQPmQ_DnmfVzqBeo6CjzXtc0T9nXT6Djvh6TQKX10gcjAa3rXM8QN-fEtXbKlNA_lUk087nNV')"></div>
+<div class="flex flex-col">
+<span class="text-xs font-bold">Alex Johnson</span>
+<span class="text-[10px] text-slate-500">Premium Account</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col overflow-hidden">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8">
+<div class="flex items-center gap-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Academic Work Kanban</h2>
+<div class="h-4 w-px bg-slate-300 dark:bg-slate-700"></div>
+<div class="flex items-center gap-1 text-slate-500 text-sm">
+<span>Workspace</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-medium text-slate-700 dark:text-slate-300">Active Tasks</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-1.5 text-sm focus:ring-2 focus:ring-primary w-64 placeholder:text-slate-500" placeholder="Quick search..." type="text"/>
+</div>
+<button class="size-9 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2.5 size-2 bg-red-500 rounded-full ring-2 ring-white dark:ring-background-dark"></span>
+</button>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+                        New Work
+                    </button>
+</div>
+</header>
+<!-- Filters Area -->
+<div class="px-8 py-4 flex items-center justify-between bg-white/50 dark:bg-background-dark/50 backdrop-blur-sm">
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<div class="size-7 rounded-full border-2 border-white dark:border-background-dark bg-slate-200" data-alt="Team member 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDptwJ8mT1My1kXtdrIoQqLDp1S0Dy2P4q9agA7kXxh4fjRJAYa0RjkQPiYHBVojOyupaElpzRhXZn3GTD7OKuc5kg1zpNp2rnmh8uQLW0w5zj1Yw-81KPmTgTwxE39LzZzSrZY4jvTXwA7QNcUgUge0Nq9He3XaznaLClVxhXfyoBrY8hwytfFf3eCdIO2ZCl3Rv9qBbN-WvoB2-wMwJfkNwJuhcOjreNMKXASCcy5imIOGHc2CkV3Xn9caKBo117w9MJhp6_ZzIUR')"></div>
+<div class="size-7 rounded-full border-2 border-white dark:border-background-dark bg-slate-300" data-alt="Team member 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDoUShnf-VMUKQMRNRMoa6xbUf_7bI46fKNbOG0KNv7xnRYcQ4IPa7ycu-sersH8K3fGLCHC8J66OA7GHY281dHamG3yJNLiYWl0Bsfj3993sHl95SIZM0lhYZk_RtSgCfwDIdOhUYykgbr4k5P5xcABqGnZDTaa8bVlZ40__OU5cgv_SpL80yeUCSDhYiT6XEgdIBJPiGDEiyKYtEpzjlqsE9vC7-pLNHpc5eyEEz97xljk9vGM6Gd50Y3FbVHzHo6vZpMoxiHsaFA')"></div>
+<div class="size-7 rounded-full border-2 border-white dark:border-background-dark bg-slate-400" data-alt="Team member 3" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbqk-uhsiY6HmD1aJvZuPux3Zwf6USACszyqN3n3tYifIGIhoexmI-F9Kq-hCDn1Z41fhbkeasNbPnL4ZvjBbRlvWXPKp9YE_2YX-33NzYKd6LXidoBpxbR6g8flfIk6jN45ugco5wwaHCbmBajZFk_mOtWkGdd8Et4WAenHlsFxveFp1m00USL963C4qhjdIsQIzWz5Zt_nz-TTlDeQODn_AuqUzXVlqkoFecd6_Jw5UdBRz_Z5lHvVPgEyzVtieC1yO_VwiY-VOG')"></div>
+<button class="size-7 rounded-full border-2 border-white dark:border-background-dark bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] text-slate-500 font-bold hover:bg-slate-200 transition-colors">
+                            +12
+                        </button>
+</div>
+<div class="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filters
+                    </button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+<span class="material-symbols-outlined text-sm">swap_vert</span>
+                        Sort
+                    </button>
+</div>
+<div class="flex items-center gap-2">
+<div class="bg-slate-200 dark:bg-slate-800 p-1 rounded-lg flex">
+<button class="p-1.5 bg-white dark:bg-slate-700 rounded shadow-sm text-primary">
+<span class="material-symbols-outlined text-base leading-none">view_kanban</span>
+</button>
+<button class="p-1.5 text-slate-500">
+<span class="material-symbols-outlined text-base leading-none">format_list_bulleted</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Kanban Board -->
+<div class="flex-1 overflow-x-auto p-8 pt-0 scrollbar-hide">
+<div class="flex gap-6 h-full min-w-max">
+<!-- Column: Pending -->
+<div class="w-80 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-slate-400"></span>
+<h3 class="font-bold text-sm text-slate-700 dark:text-slate-200">Pending</h3>
+<span class="bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] px-2 py-0.5 rounded-full font-bold">4</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined text-lg">more_horiz</span></button>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all group cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-tight">Psychology</span>
+<span class="text-primary font-bold text-xs">$120.00</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Neural Basis of Learning</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Student: Sarah Jenkins</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span class="text-[10px] font-medium">Oct 24, 2023</span>
+</div>
+<div class="size-6 rounded-full bg-slate-100" data-alt="Student Sarah Jenkins" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_ykdK2wg_K-PCnLD5nZshqmKDxD9DiXtYK1DelkaigYjD2JrD7ipQ6LJosfKvR-fPGomleQ48H10ruktuFKVujTRhE0cI70jL3_dGyQ5DmlIg8LiyP49UdYJOUVu5ULrhhxPm1jI-V2uOk2Xqea-Y59UxLwc3Hh1YYJ-M3QvpcBiWlhFl1mkiNxPZrLJNT8qgVo_ojVPZxA3T6PhQucQmIb4O_XSfcGrRVBVJlitK0lp8VRhgZMl8gLlqWDt_eEGWDMmm6SFky4Kv')"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all group cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-tight">History</span>
+<span class="text-primary font-bold text-xs">$85.00</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">The Industrial Revolution</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Student: Mike Ross</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-red-500">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+<span class="text-[10px] font-bold uppercase">Urgent</span>
+</div>
+<div class="size-6 rounded-full bg-slate-100" data-alt="Student Mike Ross" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9JXbHzecXfDB7iPXY65xaR5ilfTBVPoKudlLk5p862-w15tWhb8Ee3PGc8nhigeW842A7NG2xrKluBS-w_-eZqRyK3p0RWatqUL4qh0tMTopdYUMbXvAxCmwehjAWdi5gz9qxIVsIJZiSMNYzYNGTJIL3SwZ-tkclj-P9bNbKerjN-kSTnxWc74c7BdES_7CsVar3lSYYbZEB8wzgfmJQt7nfNaJZKXeFasLp9AQSe5-YskvoKjqUYQFJODm1UXkmAjwHU-NUG-qb')"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: In Progress -->
+<div class="w-80 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-primary"></span>
+<h3 class="font-bold text-sm text-slate-700 dark:text-slate-200">In Progress</h3>
+<span class="bg-primary/10 text-primary text-[10px] px-2 py-0.5 rounded-full font-bold">3</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined text-lg">more_horiz</span></button>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto">
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all cursor-pointer ring-1 ring-primary/20">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-tight">Economics</span>
+<span class="text-primary font-bold text-xs">$210.00</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Global Trade Analysis 2024</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Student: Emily Chen</p>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mb-3 overflow-hidden">
+<div class="bg-primary h-full w-[65%] rounded-full"></div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="material-symbols-outlined text-sm">timer</span>
+<span class="text-[10px] font-medium">Due in 2 days</span>
+</div>
+<div class="size-6 rounded-full bg-slate-100" data-alt="Student Emily Chen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDutF2I57d2yJT-58HmJinKSgm17woUDkxhmzhOsBcponoJiPT03DdklR-V-MKy4YmEkQF1FCn6zPYN9EuEKaZxw8u8ut0sUlfAhW27W6mTJeQX7ev9mMf_VcDBiVs0RDuUCUVqksD4sOFfrtUw8_pEKZbTVpHtyIFrPjSbb7crV-yrrxXPRFH4Ij8_KySu2yxflVlzrsngu_y3hgw_XNzQN-C4G79hq9gGfe_2Xz03V6_YKuYUmK698Rs3sdeD_2z0h0njpHhr1jR6')"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Waiting Review -->
+<div class="w-80 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-amber-400"></span>
+<h3 class="font-bold text-sm text-slate-700 dark:text-slate-200">Waiting Review</h3>
+<span class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined text-lg">more_horiz</span></button>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto">
+<!-- Card 4 -->
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all cursor-pointer opacity-90 grayscale-[0.2]">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-tight">Biology</span>
+<span class="text-primary font-bold text-xs">$150.00</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Gene Expression Research</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Student: David Miller</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-amber-600">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-[10px] font-bold uppercase">Pending Check</span>
+</div>
+<div class="size-6 rounded-full bg-slate-100" data-alt="Student David Miller" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFUvZIGJbIf4DNADrNH5JcXXXhX0md-KWnTWmeA28LzvKe6pXN1wAXHgkXR026nhaLuB0zwSRcVp9vuJHa2zrWkFIkmdgSiOi7D_AnGl6mWrqwWbPKSXlwwh4n7j0w3_OlAD3jKE-dKUyxOjCx0VC04hXa42G8_TPo-w0FASNtbgNhmi5vvlR-i6dx0Iknkl5lp_8B8esffVJQks3tVnciJ-Zkpd8pI_zeRaag7Auz-IZ1bOCGqjsigcfGShTCPs8wz4gBdBr0vuZ7')"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Delivered -->
+<div class="w-80 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-emerald-500"></span>
+<h3 class="font-bold text-sm text-slate-700 dark:text-slate-200">Delivered</h3>
+<span class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full font-bold">12</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined text-lg">more_horiz</span></button>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto">
+<!-- Card 5 -->
+<div class="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-tight">Mathematics</span>
+<span class="text-slate-400 font-bold text-xs strike-through">$45.00</span>
+</div>
+<h4 class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-1 line-through">Calculus Final Project</h4>
+<p class="text-xs text-slate-400 mb-4 italic">Delivered on Oct 18</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-emerald-500">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="text-[10px] font-bold uppercase">Completed</span>
+</div>
+<div class="size-6 rounded-full bg-slate-200 opacity-50" data-alt="Completed math task student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHF3xyjxC0Y9Kvm25NkKjQcbHU0Piaa7O0Q1ekLx5rWcmIBr56EYhL2Jg5kXxPWxHTLdGtjSmf_LryK4zHgjEU0yMM8W-II03m_ryuZzSqM-buYcqVseUcK8_AqD1t6GiSvfZrhhRSMuIxyFhu8iUKlxyb-aEmkBFPqCb056g91_6_U96Dv9684wFNfeZFYeZTUf5_AQIF9jjPWL1JO3G_odpY5xZUMWIe4pwmjza0Gxz5U4ANjgUqTp3V-NEoJhSdUZhaGjDH6Ug9')"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Column Placeholder -->
+<div class="w-80 flex flex-col items-center justify-start pt-2 opacity-50">
+<button class="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl text-slate-500 hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="text-sm font-bold">Add Column</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

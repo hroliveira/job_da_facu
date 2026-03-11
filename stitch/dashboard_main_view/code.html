@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Work Manager - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex">
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-2 text-white flex items-center justify-center">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h1 class="font-bold text-lg leading-tight">Academia</h1>
+<p class="text-xs text-slate-500 font-medium">Work Manager</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary/10 text-primary font-semibold transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm">Students</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-sm">Works</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">alarm</span>
+<span class="text-sm">Deadlines</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-sm">Finance</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="text-sm">Files</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 flex-1">
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-8 py-4 flex items-center justify-between">
+<div class="flex items-center w-96 relative">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search works, students, or documents..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-blue-600 text-white font-semibold text-sm px-5 py-2 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Add Work
+                    </button>
+<button class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden cursor-pointer border-2 border-slate-100 dark:border-slate-800">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="User profile avatar illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeEtdqMqZXIwtPhdHyHutu6x9VvlZXAA6PlVlStaNfHre1a5eRNdAepHB13npaAu_VowmeLuAHL8z-FxGIBcliJRnpmaJabmew6kIdOyKhK4vagERPcN-u1Ivwwyp_9q3n2X3PXVmjb3pg2eVgvLPBHRRYreYzR2RonOXsm-d6SfZqXi-n3-wolryf45rTrcIWq_PoQs4ik8XYanyy6dn58-EyBb87I5YdUhVwiycTjdofcp1HCmhxB8axrq4eOA0_4_RfIIfAkX0b"/>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Stats Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg">+12.5%</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Students</p>
+<h3 class="text-3xl font-bold mt-1">1,284</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg">+5.2%</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Works</p>
+<h3 class="text-3xl font-bold mt-1">142</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<span class="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg">+18.1%</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Works Delivered</p>
+<h3 class="text-3xl font-bold mt-1">856</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-xs font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/30 px-2 py-1 rounded-lg">-2.4%</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Monthly Revenue</p>
+<h3 class="text-3xl font-bold mt-1">$4,250</h3>
+</div>
+</div>
+<!-- Upcoming Deadlines Table -->
+<div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<h2 class="text-lg font-bold">Upcoming Deadlines</h2>
+<button class="text-sm font-semibold text-primary hover:underline">View all</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+<th class="px-6 py-4">Work Title</th>
+<th class="px-6 py-4">Student Name</th>
+<th class="px-6 py-4">Subject</th>
+<th class="px-6 py-4">Delivery Date</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Economic Analysis 2024</td>
+<td class="px-6 py-4 text-sm">Marcus Johnson</td>
+<td class="px-6 py-4 text-sm text-slate-500">Macroeconomics</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2024</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+                                            Pending
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Neural Network Case Study</td>
+<td class="px-6 py-4 text-sm">Elena Rodriguez</td>
+<td class="px-6 py-4 text-sm text-slate-500">Computer Science</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 26, 2024</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                            In Progress
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Comparative Literature Final</td>
+<td class="px-6 py-4 text-sm">Sarah Williams</td>
+<td class="px-6 py-4 text-sm text-slate-500">Humanities</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 20, 2024</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                            Delivered
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Quantum Mechanics Report</td>
+<td class="px-6 py-4 text-sm">David Chen</td>
+<td class="px-6 py-4 text-sm text-slate-500">Theoretical Physics</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 15, 2024</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-50 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400">
+                                            Late
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Recent Students Table -->
+<div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<h2 class="text-lg font-bold">Recent Students</h2>
+<button class="text-sm font-semibold text-primary hover:underline">Manage Students</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+<th class="px-6 py-4">Student Name</th>
+<th class="px-6 py-4">Course</th>
+<th class="px-6 py-4">Institution</th>
+<th class="px-6 py-4">Contact</th>
+<th class="px-6 py-4">Total Works</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="Student profile portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiaVWNxhT1pCgzwcoxQoX9uetbSLWuR4p8nP2FNSdZxecAwMZpb7nTdBcQqjTR0GZU7eU2QzkZw2OTwveuH9xAH-4L2TRiz_OH4PcjbirLCUk1gGa_kQI4hlkYWXcElGaBVGdXnYDgC37VSYSNWJ7Mg90skb1lp64Y_HMrzvPbcYP0xNpC2DiL8HqA2KM7ieWKFzmh0elTKCBjTPAeQO46mYfCIT9iXwj-9KAK9ODlI0Fb3qEx4mxCxQ5O5xev3iVp8fcPju7wwbfV"/>
+</div>
+<span class="text-sm font-medium">Marcus Johnson</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">International Business</td>
+<td class="px-6 py-4 text-sm text-slate-500">Stanford University</td>
+<td class="px-6 py-4 text-sm text-slate-500">m.johnson@example.com</td>
+<td class="px-6 py-4 text-sm font-semibold">12</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="Student profile portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKGnYjt6S7UCQl17DFP_7ExkNV68aCWSJT41iPUVLwUSXWEYcFFHDSFsKHpQ5j63IDMulb25Isy2yCUjwVC3H3LrV9TBo05ZAlmqxyxKPjMCfDiKIPQH49ok1GUrTtWaoAzTkCQScHv5CXzhVJG8ZF_5j9Ap2vcRt-Zi69movdMzypt6Z0Opw60Zq00hO2zd3SBiMU1XtdtluKAvndmdO71HoDLRFm8M62e8poO_WBSNj_fZtlyGXLljNiEVkOI3Km5N2XLvT9l2qI"/>
+</div>
+<span class="text-sm font-medium">Elena Rodriguez</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Software Engineering</td>
+<td class="px-6 py-4 text-sm text-slate-500">MIT</td>
+<td class="px-6 py-4 text-sm text-slate-500">elena.rod@example.com</td>
+<td class="px-6 py-4 text-sm font-semibold">8</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="Student profile portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTSOLYeq771dqTyWplWbId0bHeeBDUBKajEmdEWKmXCOksPPjXDUHmcdHbzj7HR8IdOE23lbt1zgzLdPhHI6rlxTzVJ_4WSVIc94IPLjKlFdd8N10IWkbvuC4nAw1fdzt8BPuQlVpyhTrLtOp2iTSPJn-cfKxc-Vvk5gI16ElvoHh1j6z8GxWcClfk0b6hsCY5z8fGfUbWu3jeCC-M5aiMfXEW2SwBPW5x4d7O83O5gPL5gONTJB-7N1A1kSy78UAjX-nr6YZWZaxC"/>
+</div>
+<span class="text-sm font-medium">David Chen</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Physics PhD</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oxford University</td>
+<td class="px-6 py-4 text-sm text-slate-500">d.chen@example.edu</td>
+<td class="px-6 py-4 text-sm font-semibold">15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
