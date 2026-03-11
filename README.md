@@ -26,21 +26,54 @@ create policy "storage_delete" on storage.objects
   for delete using (bucket_id = 'work-files' and auth.uid()::text = (storage.foldername(name))[1]);
 ```
 
-### 4. Configurar as credenciais
-No painel → **Settings** → **API** → copie:
+### 4. Configurar as credenciais no `.env`
+No painel do Supabase → **Settings** → **API** → copie:
 - `Project URL` → `SUPABASE_URL`
 - `anon public` key → `SUPABASE_ANON_KEY`
 
-Edite o arquivo `src/services/supabaseClient.js`:
-```js
-const SUPABASE_URL = 'https://SEU_PROJETO.supabase.co';   // ← cole aqui
-const SUPABASE_ANON_KEY = 'SUA_ANON_KEY_AQUI';           // ← cole aqui
+Crie o arquivo `.env` na raiz do projeto (copie de `.env.example` se existir):
+```env
+SUPABASE_URL=https://seu-projeto.supabase.co
+SUPABASE_ANON_KEY=sua_anon_key_aqui
+SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_aqui
+NODE_ENV=development
+PORT=3000
+CORS_ORIGIN=*
 ```
 
-### 5. Abrir no navegador
-Abra o arquivo `index.html` diretamente no navegador, ou use a extensão **Live Server** no VS Code.
+### 5. Instalar dependências e iniciar
+```bash
+# Instalar dependências
+npm install
 
-> **Dica:** Use Live Server para evitar problemas com ES Modules (CORS). Clique com botão direito em `index.html` → "Open with Live Server".
+# Modo desenvolvimento (recarrega automático)
+npm run dev
+
+# Ou modo produção
+npm start
+```
+
+Acesse em `http://localhost:3000`
+
+---
+
+## 🐳 Com Docker
+
+### Build e rodas
+```bash
+# Build e inicia em background
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f app
+
+# Parar
+docker-compose down
+```
+
+Acesse em `http://localhost:3000`
+
+**Requisitos:** Docker e Docker Compose instalados
 
 ---
 
@@ -48,30 +81,54 @@ Abra o arquivo `index.html` diretamente no navegador, ou use a extensão **Live 
 
 ```
 /job_da_facu
-  index.html         ← Página de Login/Cadastro
-  app.html           ← SPA Principal (roteador + layout)
-  /src
-    /services/       ← Integração com Supabase
-      supabaseClient.js
-      authService.js
-      studentService.js
-      workService.js
-      paymentService.js
-      fileService.js
-      dashboardService.js
-    /views/          ← Módulos de cada página
-      dashboard.js
-      students.js
-      works.js
-      finance.js
-      settings.js
-    /utils/          ← Funções utilitárias
-      dateHelpers.js
-      statusHelpers.js
-      uiHelpers.js
-  /sql/
-    schema.sql       ← DDL + RLS Policies
-  /stitch/           ← Layouts originais de referência
+  ├── server.js             ← Servidor Express + SPA
+  ├── package.json          ← Dependências
+  ├── .env                  ← Credenciais (gitignored)
+  ├── .env.example          ← Template
+  ├── Dockerfile            ← Build multi-stage
+  ├── docker-compose.yml    ← Orquestração
+  │
+  ├── index.html            ← Página de Login/Signup
+  ├── app.html              ← SPA Principal (roteador + layout)
+  │
+  ├── api/                  ← Backend Express
+  │   ├── index.js          ← Router principal
+  │   ├── auth.js           ← Autenticação Supabase
+  │   ├── students.js
+  │   ├── works.js
+  │   ├── payments.js
+  │   ├── files.js
+  │   ├── dashboard.js
+  │   ├── team.js
+  │   └── middleware/
+  │       └── auth.js       ← Auth guard para rotas
+  │
+  ├── src/
+  │   ├── services/         ← Cliente Supabase
+  │   │   ├── supabaseClient.js    (obtém config de /api/config)
+  │   │   ├── authService.js
+  │   │   ├── studentService.js
+  │   │   ├── workService.js
+  │   │   ├── paymentService.js
+  │   │   ├── fileService.js
+  │   │   ├── dashboardService.js
+  │   │   └── teamService.js
+  │   ├── views/            ← Módulos de cada página
+  │   │   ├── dashboard.js
+  │   │   ├── students.js
+  │   │   ├── works.js
+  │   │   ├── finance.js
+  │   │   ├── settings.js
+  │   │   └── team.js
+  │   └── utils/            ← Funções utilitárias
+  │       ├── dateHelpers.js
+  │       ├── statusHelpers.js
+  │       └── uiHelpers.js
+  │
+  ├── sql/
+  │   └── schema.sql        ← DDL + RLS Policies
+  │
+  └── stitch/               ← Layouts originais (referência)
 ```
 
 ## 🗂️ Funcionalidades
@@ -84,9 +141,32 @@ Abra o arquivo `index.html` diretamente no navegador, ou use a extensão **Live 
 | **Finanças** | Pagamentos, Gráfico de receita, Totais, Pendências |
 | **Arquivos** | Upload, Download (URL assinada), Delete — Supabase Storage |
 | **Dashboard** | Métricas reais, Deadlines, Gráfico, Alunos recentes |
+| **Equipe** | Gerenciamento de permissões e roles |
 | **Segurança** | RLS — cada usuário acessa apenas seus próprios dados |
 
 ## 🔐 Segurança
-- Row Level Security (RLS) ativo em todas as tabelas
-- Arquivos no Storage protegidos por `user_id` no path
-- Sessão gerenciada automaticamente pelo Supabase Auth
+
+- **Row Level Security (RLS)** ativo em todas as tabelas
+- **Arquivos no Storage** protegidos por `user_id` no path
+- **Sessão** gerenciada automaticamente pelo Supabase Auth
+- **API /api/config** expõe apenas credenciais públicas do Supabase
+- **Variáveis sensíveis** (.env, credenciais service role) não saem do servidor
+- **Docker**: Usuário não-root, Health checks, Multi-stage build
+
+## 📋 Scripts npm
+
+```bash
+npm start           # Inicia o servidor (produção)
+npm run dev         # Inicia com nodemon (desenvolvimento)
+npm run docker:up   # Docker compose up
+npm run docker:down # Docker compose down
+```
+
+## 🔧 Tecnologia
+
+- **Frontend:** Vanilla JS (ES Modules), Tailwind CSS
+- **Backend:** Express.js
+- **Database:** Supabase (PostgreSQL + Auth)
+- **Storage:** Supabase Storage
+- **Container:** Docker + Compose
+- **CDN:** Tailwind, Fonts, Supabase JS SDK (CDN)

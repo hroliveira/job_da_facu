@@ -1,10 +1,12 @@
 // ============================================================
 // supabaseClient.js — Inicialização do Supabase client
-// As credenciais são lidas do arquivo /env.js na raiz do projeto.
-// Para trocar o projeto Supabase, edite apenas o env.js.
+// Credenciais são obtidas da API /api/config (do arquivo .env)
 // ============================================================
 
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../../env.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Fetch das credenciais da API
+const configResponse = await fetch('/api/config');
+const config = await configResponse.json();
+
+export const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
