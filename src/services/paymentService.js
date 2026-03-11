@@ -57,16 +57,9 @@ export async function createPayment(paymentData) {
 }
 
 /**
- * Atualiza o status de um pagamento
+ * Atualiza um pagamento (qualquer campo)
  */
-export async function updatePaymentStatus(id, status, paymentDate = null) {
-  const updates = { status };
-  if (status === 'paid' && !paymentDate) {
-    updates.payment_date = new Date().toISOString().slice(0, 10);
-  } else if (paymentDate) {
-    updates.payment_date = paymentDate;
-  }
-
+export async function updatePayment(id, updates) {
   const { data, error } = await supabase
     .from('payments')
     .update(updates)
@@ -76,6 +69,19 @@ export async function updatePaymentStatus(id, status, paymentDate = null) {
 
   if (error) throw error;
   return data;
+}
+
+/**
+ * Atualiza o status de um pagamento
+ */
+export async function updatePaymentStatus(id, status, paymentDate = null) {
+  const updates = { status };
+  if (status === 'paid' && !paymentDate) {
+    updates.payment_date = new Date().toISOString().slice(0, 10);
+  } else if (paymentDate) {
+    updates.payment_date = paymentDate;
+  }
+  return updatePayment(id, updates);
 }
 
 /**

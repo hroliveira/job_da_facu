@@ -3,7 +3,7 @@
 // ============================================================
 import { listWorksForKanban, createWork, updateWork, updateWorkStatus, deleteWork } from '../services/workService.js';
 import { listStudentsAll } from '../services/studentService.js';
-import { createPayment } from '../services/paymentService.js';
+import { createPayment, listPayments, updatePayment, deletePayment } from '../services/paymentService.js';
 import { getKanbanColumns, getStatusBadgeHTML } from '../utils/statusHelpers.js';
 import { formatDate, getDeadlineLabel, getDeadlineColor } from '../utils/dateHelpers.js';
 import { formatMoney, loadingHTML, emptyHTML, inputClass, labelHTML, avatarHTML } from '../utils/uiHelpers.js';
@@ -162,8 +162,8 @@ function renderCard(w) {
           <span class="text-[10px] font-medium">${w.delivery_date ? getDeadlineLabel(w.delivery_date) : '—'}</span>
         </div>
         <div class="flex items-center gap-1">
-          ${!isFullyPaid && w.price > 0 ? `
-          <button onclick="openPaymentModalFromCard('${w.id}', ${w.price}, ${remaining})" class="p-1.5 text-slate-400 hover:text-emerald-500 rounded-lg hover:bg-emerald-50 transition-colors" title="Registrar Pagamento">
+          ${w.price > 0 ? `
+          <button onclick="openPaymentModalFromCard('${w.id}', ${w.price})" class="p-1.5 text-slate-400 hover:text-emerald-500 rounded-lg hover:bg-emerald-50 transition-colors" title="Gerenciar Pagamentos">
             <span class="material-symbols-outlined text-base">payments</span>
           </button>` : ''}
           <button onclick="openWorkModal('${w.id}')" class="p-1.5 text-slate-400 hover:text-primary rounded-lg hover:bg-primary/5 transition-colors">
@@ -217,51 +217,159 @@ async function changeWorkStatus(id, status) {
   }
 }
 
-window.openPaymentModalFromCard = (workId, workPrice, remaining) => {
-  const body = `
-    <div class="space-y-4">
-      <div class="bg-blue-50/50 border border-blue-100 text-blue-800 p-4 rounded-xl text-sm mb-4">
-        <p class="mb-1">Valor do Trabalho: <strong>${formatMoney(workPrice)}</strong></p>
-        <p class="text-amber-600">Restante a Pagar: <strong>${formatMoney(remaining)}</strong></p>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>${labelHTML('Valor a Pagar (R$)', true)}<input id="pfc-amount" type="number" min="0" step="0.01" max="${remaining}" class="${inputClass()}" value="${remaining.toFixed(2)}"/></div>
-        <div>${labelHTML('Método')}<select id="pfc-method" class="${inputClass()}">
-          <option value="pix">PIX</option><option value="transferencia">Transferência</option>
+window.openPaymentModalFromCard = async (workId, workPrice) => {
+  const loadPayments = async () => {
+    try {
+      const payments = await listPayments(workId);
+      const totalPaid = payments.reduce((sum, p) => sum + Number(p.amount), 0);
+      const remaining = Math.max(0, workPrice - totalPaid);
+      
+      const paymentsList = payments.length > 0 ? payments.map(p => `
+        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl mb-2">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-xs font-bold text-slate-700">${formatMoney(p.amount)}</span>
+              <span class="text-[10px] uppercase font-bold text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded">${p.payment_method}</span>
+            </div>
+            <div class="text-[10px] text-slate-500">${formatDate(p.payment_date)}</div>
+          </div>
+          <div class="flex items-center gap-1">
+            <button onclick="editSinglePayment('${p.id}', ${p.amount}, '${p.payment_method}', '${p.payment_date}')" class="p-1.5 text-slate-400 hover:text-primary rounded-lg hover:bg-primary/5 transition-all">
+              <span class="material-symbols-outlined text-base">edit</span>
+            </button>
+            <button onclick="deleteSinglePayment('${p.id}')" class="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-rose-50 transition-all">
+              <span class="material-symbols-outlined text-base">delete</span>
+            </button>
+          </div>
+        </div>
+      `).join('') : '<p class="text-center text-slate-400 text-xs py-4 italic">Nenhum pagamento registrado.</p>';
+
+      const body = `
+        <div class="space-y-6">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 bg-blue-50 border border-blue-100 rounded-xl">
+              <p class="text-[10px] text-blue-600 font-bold uppercase mb-1">Total do Trabalho</p>
+              <p class="text-lg font-bold text-blue-800">${formatMoney(workPrice)}</p>
+            </div>
+            <div class="p-3 bg-emerald-50 border border-emerald-100 rounded-xl">
+              <p class="text-[10px] text-emerald-600 font-bold uppercase mb-1">Total Pago</p>
+              <p class="text-lg font-bold text-emerald-800">${formatMoney(totalPaid)}</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-sm font-bold text-slate-800">Histórico de Pagamentos</h4>
+              ${remaining > 0 ? `<button onclick="showNewPaymentForm('${workId}', ${remaining})" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">add</span>Adicionar
+              </button>` : ''}
+            </div>
+            <div id="payments-history-list" class="max-h-60 overflow-y-auto pr-1">
+              ${paymentsList}
+            </div>
+          </div>
+
+          <div id="payment-form-area" class="hidden pt-4 border-t border-slate-100">
+            <!-- Form for new or edit will appear here -->
+          </div>
+        </div>`;
+
+      const footer = `<button onclick="closeModal()" class="w-full bg-slate-100 text-slate-600 font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-slate-200 transition-all">Fechar</button>`;
+
+      openModal('Gerenciar Pagamentos', body, footer);
+    } catch(e) {
+      showToast(e.message, 'error');
+    }
+  };
+
+  await loadPayments();
+
+  // Helper local functions for the modal
+  window.showNewPaymentForm = (wId, rem) => {
+    const area = document.getElementById('payment-form-area');
+    area.innerHTML = `
+      <h5 class="text-xs font-bold text-slate-700 mb-3">Novo Pagamento</h5>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div>${labelHTML('Valor (R$)', true)}<input id="p-amount" type="number" step="0.01" max="${rem}" class="${inputClass()}" value="${rem.toFixed(2)}"/></div>
+        <div>${labelHTML('Método')}<select id="p-method" class="${inputClass()}">
+          <option value="pix">PIX</option><option value="transferencia">Transf.</option>
           <option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option>
         </select></div>
-        <div class="col-span-2">${labelHTML('Data do Pagamento')}<input id="pfc-date" type="date" class="${inputClass()}" value="${new Date().toISOString().slice(0, 10)}"/></div>
+        <div class="col-span-2">${labelHTML('Data')}<input id="p-date" type="date" class="${inputClass()}" value="${new Date().toISOString().slice(0, 10)}"/></div>
       </div>
-      <div id="pfc-error" class="hidden text-xs text-rose-600 bg-rose-50 px-3 py-2 rounded-lg"></div>
-    </div>`;
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('payment-form-area').classList.add('hidden')" class="flex-1 bg-slate-100 text-slate-600 text-[10px] font-bold py-2 rounded-lg">Cancelar</button>
+        <button id="btn-save-p" onclick="doSaveNewPayment('${wId}')" class="flex-1 bg-primary text-white text-[10px] font-bold py-2 rounded-lg shadow-md shadow-primary/20">Registrar</button>
+      </div>
+    `;
+    area.classList.remove('hidden');
+    area.scrollIntoView({ behavior: 'smooth' });
+  };
 
-  const footer = `
-    <button onclick="closeModal()" class="border border-slate-200 text-slate-600 font-semibold text-sm px-5 py-2 rounded-xl hover:bg-slate-50 transition-colors">Cancelar</button>
-    <button id="pfc-save" onclick="saveCardPayment('${workId}', ${workPrice}, ${remaining})" class="bg-primary hover:bg-blue-600 text-white font-semibold text-sm px-5 py-2 rounded-xl shadow-lg shadow-primary/20 transition-colors">Registrar Pagamento</button>`;
+  window.editSinglePayment = (pId, amount, method, date) => {
+    const area = document.getElementById('payment-form-area');
+    area.innerHTML = `
+      <h5 class="text-xs font-bold text-slate-700 mb-3">Editar Pagamento</h5>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div>${labelHTML('Valor (R$)', true)}<input id="p-amount" type="number" step="0.01" class="${inputClass()}" value="${amount}"/></div>
+        <div>${labelHTML('Método')}<select id="p-method" class="${inputClass()}">
+          <option value="pix" ${method==='pix'?'selected':''}>PIX</option>
+          <option value="transferencia" ${method==='transferencia'?'selected':''}>Transf.</option>
+          <option value="dinheiro" ${method==='dinheiro'?'selected':''}>Dinheiro</option>
+          <option value="cartao" ${method==='cartao'?'selected':''}>Cartão</option>
+        </select></div>
+        <div class="col-span-2">${labelHTML('Data')}<input id="p-date" type="date" class="${inputClass()}" value="${date ? date.slice(0,10) : ''}"/></div>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('payment-form-area').classList.add('hidden')" class="flex-1 bg-slate-100 text-slate-600 text-[10px] font-bold py-2 rounded-lg">Cancelar</button>
+        <button id="btn-save-p" onclick="doUpdatePayment('${pId}')" class="flex-1 bg-primary text-white text-[10px] font-bold py-2 rounded-lg shadow-md shadow-primary/20">Salvar Alterações</button>
+      </div>
+    `;
+    area.classList.remove('hidden');
+    area.scrollIntoView({ behavior: 'smooth' });
+  };
 
-  openModal('Registrar Pagamento', body, footer);
-
-  window.saveCardPayment = async (wId, wPrice, rem) => {
-    const errEl = document.getElementById('pfc-error'); errEl.classList.add('hidden');
-    const amount = parseFloat(document.getElementById('pfc-amount').value);
-    
-    if (!amount || amount <= 0) { errEl.textContent = 'Valor inválido. Insira um valor maior que 0.'; errEl.classList.remove('hidden'); return; }
-    
-    const btn = document.getElementById('pfc-save'); btn.disabled = true; btn.textContent = 'Aguarde...';
-    
+  window.doSaveNewPayment = async (wId) => {
+    const amount = parseFloat(document.getElementById('p-amount').value);
+    if (!amount || amount <= 0) return showToast('Valor inválido', 'error');
+    const btn = document.getElementById('btn-save-p'); btn.disabled = true; btn.textContent = '...';
     try {
       await createPayment({
         work_id: wId, amount,
-        payment_method: document.getElementById('pfc-method').value,
-        status: 'paid', // Any payment made here is effectively paid
-        payment_date: document.getElementById('pfc-date').value || new Date().toISOString().slice(0, 10),
+        payment_method: document.getElementById('p-method').value,
+        status: 'paid',
+        payment_date: document.getElementById('p-date').value || new Date().toISOString().slice(0, 10),
       });
-      closeModal(); showToast('Pagamento registrado!', 'success');
+      showToast('Pagamento registrado!', 'success');
+      loadPayments(); // Reload modal
+      loadKanban();   // Reload board
+    } catch(e) { showToast(e.message, 'error'); btn.disabled = false; btn.textContent = 'Registrar'; }
+  };
+
+  window.doUpdatePayment = async (pId) => {
+    const amount = parseFloat(document.getElementById('p-amount').value);
+    if (!amount || amount <= 0) return showToast('Valor inválido', 'error');
+    const btn = document.getElementById('btn-save-p'); btn.disabled = true; btn.textContent = '...';
+    try {
+      await updatePayment(pId, {
+        amount,
+        payment_method: document.getElementById('p-method').value,
+        payment_date: document.getElementById('p-date').value
+      });
+      showToast('Pagamento atualizado!', 'success');
+      loadPayments();
       loadKanban();
-    } catch(e) {
-      errEl.textContent = e.message; errEl.classList.remove('hidden');
-      btn.disabled = false; btn.textContent = 'Registrar Pagamento';
-    }
+    } catch(e) { showToast(e.message, 'error'); btn.disabled = false; btn.textContent = 'Salvar Alterações'; }
+  };
+
+  window.deleteSinglePayment = async (pId) => {
+    if (!confirm('Excluir este pagamento? (Não pode ser desfeito)')) return;
+    try {
+      await deletePayment(pId);
+      showToast('Pagamento removido.', 'success');
+      loadPayments();
+      loadKanban();
+    } catch(e) { showToast(e.message, 'error'); }
   };
 };
 
@@ -271,8 +379,15 @@ async function openWorkForm(id = null) {
   try { students = await listStudentsAll(); } catch(e) {}
 
   const studentOptions = students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-  const typeOptions = ['essay','dissertation','monography','article','presentation','report','other']
-    .map(t => `<option value="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('');
+  const types = [
+    { value: 'resumo', label: 'Resumo expandido' },
+    { value: 'socializacao', label: 'Socialização' },
+    { value: 'slides', label: 'Slides' },
+    { value: 'av1', label: 'AV1' },
+    { value: 'av2', label: 'AV2' },
+    { value: 'av3', label: 'AV3' }
+  ];
+  const typeOptions = types.map(t => `<option value="${t.value}">${t.label}</option>`).join('');
 
   const body = `
     <div class="space-y-4">
@@ -318,6 +433,13 @@ async function openWorkForm(id = null) {
         ${labelHTML('Descrição')}
         <textarea id="wf-desc" rows="3" class="${inputClass()}" placeholder="Detalhes do trabalho..."></textarea>
       </div>
+      ${id ? `
+      <div class="pt-2 border-t border-slate-100">
+        <button onclick="openPaymentModalFromCard('${id}', parseFloat(document.getElementById('wf-price').value || 0))" class="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-xl hover:bg-emerald-100 transition-all">
+          <span class="material-symbols-outlined text-base">payments</span>
+          Gerenciar Pagamentos / Histórico
+        </button>
+      </div>` : ''}
       <div id="wf-error" class="hidden text-xs text-rose-600 bg-rose-50 px-3 py-2 rounded-lg"></div>
     </div>`;
 
@@ -335,7 +457,7 @@ async function openWorkForm(id = null) {
       if (!w) return;
       document.getElementById('wf-title').value   = w.title    || '';
       document.getElementById('wf-student').value = w.student_id || '';
-      document.getElementById('wf-type').value    = w.type     || 'essay';
+      document.getElementById('wf-type').value    = w.type     || 'resumo';
       document.getElementById('wf-subject').value = w.subject  || '';
       document.getElementById('wf-date').value    = w.delivery_date ? w.delivery_date.slice(0,10) : '';
       document.getElementById('wf-price').value   = w.price    || '';

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/hroliveira/job-da-facu:v1.0.0
+    container_name: academic-work-manager-portainer
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Supabase Configuration
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      
+      # Server Configuration
+      - PORT=3000
+      - NODE_ENV=production
+      - CORS_ORIGIN=*
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

@@ -3,11 +3,11 @@
 // ============================================================
 
 const STATUS_CONFIG = {
-  pending:     { label: 'Pending',     color: 'amber',   icon: 'schedule' },
-  in_progress: { label: 'In Progress', color: 'blue',    icon: 'autorenew' },
-  review:      { label: 'In Review',   color: 'purple',  icon: 'visibility' },
-  delivered:   { label: 'Delivered',   color: 'emerald', icon: 'check_circle' },
-  cancelled:   { label: 'Cancelled',   color: 'rose',    icon: 'cancel' },
+  pending:     { label: 'Pendente',     color: 'amber',   icon: 'schedule' },
+  in_progress: { label: 'Em Processo', color: 'blue',    icon: 'autorenew' },
+  review:      { label: 'Em Revisão',   color: 'purple',  icon: 'visibility' },
+  delivered:   { label: 'Entregue',     color: 'emerald', icon: 'check_circle' },
+  cancelled:   { label: 'Cancelados',   color: 'rose',    icon: 'cancel' },
 };
 
 const PAYMENT_STATUS_CONFIG = {
@@ -47,11 +47,11 @@ export function getAllStatuses() {
 
 export function getKanbanColumns() {
   return [
-    { status: 'pending',     label: 'Pending',     dotColor: 'bg-slate-400',   badgeClass: 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400' },
-    { status: 'in_progress', label: 'In Progress', dotColor: 'bg-primary',     badgeClass: 'bg-primary/10 text-primary' },
-    { status: 'review',      label: 'In Review',   dotColor: 'bg-amber-400',   badgeClass: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' },
-    { status: 'delivered',   label: 'Delivered',   dotColor: 'bg-emerald-500', badgeClass: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' },
-    { status: 'cancelled',   label: 'Cancelled',   dotColor: 'bg-rose-500',    badgeClass: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600' },
+    { status: 'pending',     label: 'Pendente',     dotColor: 'bg-slate-400',   badgeClass: 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400' },
+    { status: 'in_progress', label: 'Em Processo', dotColor: 'bg-primary',     badgeClass: 'bg-primary/10 text-primary' },
+    { status: 'review',      label: 'Em Revisão',   dotColor: 'bg-amber-400',   badgeClass: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' },
+    { status: 'delivered',   label: 'Entregue',     dotColor: 'bg-emerald-500', badgeClass: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' },
+    { status: 'cancelled',   label: 'Cancelados',   dotColor: 'bg-rose-500',    badgeClass: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600' },
   ];
 }
 
