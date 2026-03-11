@@ -2,13 +2,13 @@
 // server.js — Servidor Express principal
 // Serve os arquivos estáticos e expõe a API REST em /api/*
 // ============================================================
+import cors from 'cors';
 import 'dotenv/config';
-import express    from 'express';
-import helmet     from 'helmet';
-import cors       from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import path       from 'path';
-import apiRouter  from './api/index.js';
+import apiRouter from './api/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
