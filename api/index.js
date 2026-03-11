@@ -3,13 +3,13 @@
 // Registra todas as sub-rotas em /api/*
 // ============================================================
 import { Router } from 'express';
-import authRoutes      from './auth.js';
-import studentsRoutes  from './students.js';
-import worksRoutes     from './works.js';
-import paymentsRoutes  from './payments.js';
-import filesRoutes     from './files.js';
+import authRoutes from './auth.js';
 import dashboardRoutes from './dashboard.js';
-import teamRoutes      from './team.js';
+import filesRoutes from './files.js';
+import paymentsRoutes from './payments.js';
+import studentsRoutes from './students.js';
+import teamRoutes from './team.js';
+import worksRoutes from './works.js';
 
 const router = Router();
 
