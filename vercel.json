@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "public": false,
+  "buildCommand": "npm ci",
+  "installCommand": "npm ci",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/app\\.html",
+      "dest": "/app.html"
+    },
+    {
+      "src": "/index\\.html",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
+  "functions": {
+    "server.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  }
+}

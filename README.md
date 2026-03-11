@@ -77,7 +77,35 @@ Acesse em `http://localhost:3000`
 
 ---
 
-## 📂 Estrutura do Projeto
+## � Deploy no Vercel
+
+### 1. Configurar variáveis de ambiente
+Na **Vercel → Dashboard → Project Settings → Environment Variables**, adicione:
+```
+SUPABASE_URL=https://seu-projeto.supabase.co
+SUPABASE_ANON_KEY=sua_anon_key_aqui
+SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_aqui
+```
+
+### 2. Deploy
+```bash
+# Instale Vercel CLI (se não tiver)
+npm i -g vercel
+
+# Faça login
+vercel login
+
+# Faça deploy
+vercel --prod
+```
+
+Ou conecte seu repositório no **Vercel Dashboard** → **Import Project** para deploy automático.
+
+**Nota:** O arquivo `vercel.json` já está configurado para rotear APIs corretamente.
+
+---
+
+## �📂 Estrutura do Projeto
 
 ```
 /job_da_facu

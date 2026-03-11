@@ -62,11 +62,17 @@ app.use((err, req, res, next) => {
 });
 
 // ── Start ────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🎓 Academic Work Manager`);
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-  console.log(`🌐 Frontend: http://localhost:${PORT}`);
-  console.log(`🔌 API:      http://localhost:${PORT}/api`);
-  console.log(`❤️  Health:   http://localhost:${PORT}/api/health`);
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
-});
+// Se está rodando localmente (não em Vercel), inicia o servidor
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n🎓 Academic Work Manager`);
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`🌐 Frontend: http://localhost:${PORT}`);
+    console.log(`🔌 API:      http://localhost:${PORT}/api`);
+    console.log(`❤️  Health:   http://localhost:${PORT}/api/health`);
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+  });
+}
+
+// Exportar app para Vercel (serverless handler)
+export default app;
